@@ -98,7 +98,7 @@ client.on("messageCreate",async (message)=>{
     const command=message.content.split("!")[1].split(" ")[0]
     const url=message.content.split("!")[1].split(" ")[1]
     if(message.content==="!"){
-        message.reply(`
+       return message.reply(`
         Доступні команди:
         !play
         !stop
