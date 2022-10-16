@@ -56,7 +56,6 @@ client.on("voiceStateUpdate",(oldState,newState)=>{
                 }
         })
     }else if(newState.channelId===null){
-        console.log("old");
         const connection=joinVoiceChannel({
             channelId: oldState.member.voice.channelId ,
             guildId: oldState.member.guild.id,
@@ -95,10 +94,16 @@ client.on("voiceStateUpdate",(oldState,newState)=>{
 client.on("messageCreate",async (message)=>{
     if(message.member.user.bot)return;
     if(!message.content.startsWith("!"))return;
-    console.log(message.content);
+
     const command=message.content.split("!")[1].split(" ")[0]
     const url=message.content.split("!")[1].split(" ")[1]
-
+    if(message.content==="!"){
+        message.reply(`
+        Доступні команди:
+        !play
+        !stop
+        !pisnyary`)
+    }
     if(message.content.split("!")[1].split(" ")[0]==="play"){
     if(!message.content.split("!")[1].split(" ")[1])return message.reply("Де ссилка курва?")
         const validate=await ytdl.validateURL(url)
@@ -153,11 +158,6 @@ client.on("messageCreate",async (message)=>{
 
     }else{
         message.reply("Такої команди не розумію")
-        message.reply(`
-        Доступні команди:
-        !play
-        !stop
-        !pisnyary`)
     }
     
   
