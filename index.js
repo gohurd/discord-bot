@@ -30,8 +30,7 @@ client.once('ready', () => {
 
 
 client.on("voiceStateUpdate",(oldState,newState)=>{
-    console.log(oldState.member.voice.selfMute,newState.member.voice.selfMute);
-    if(newState.member.user.bot||playerStatus)return
+    if(newState.member.user.bot)return
     if(oldState.channelId===null){
         const isPetuch=Boolean(newState.member.roles.cache.map(role=>role.name).filter(role=>role==="Петушатник").length)
       
@@ -57,6 +56,7 @@ client.on("voiceStateUpdate",(oldState,newState)=>{
                 }
         })
     }else if(newState.channelId===null){
+        console.log("old");
         const connection=joinVoiceChannel({
             channelId: oldState.member.voice.channelId ,
             guildId: oldState.member.guild.id,
