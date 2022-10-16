@@ -92,12 +92,17 @@ client.on("voiceStateUpdate",(oldState,newState)=>{
     }
 })
 
-client.on("messageCreate",(message)=>{
+client.on("messageCreate",async (message)=>{
+    if(message.member.user.bot)return;
+    if(!message.content.startsWith("!"))return;
+    console.log(message.content);
     const command=message.content.split("!")[1].split(" ")[0]
     const url=message.content.split("!")[1].split(" ")[1]
 
     if(message.content.split("!")[1].split(" ")[0]==="play"){
-        if(!url)return;
+    if(!message.content.split("!")[1].split(" ")[1])return message.reply("Де ссилка курва?")
+        const validate=await ytdl.validateURL(url)
+        if(!validate)return message.reply("Хуйова ссилка дружочек")
         const connection = joinVoiceChannel({
             channelId: message.member.voice.channelId,
             guildId: message.guildId,
@@ -117,7 +122,6 @@ client.on("messageCreate",(message)=>{
     }else if(command==="stop"){
         player.stop()
     }else if(command==="pisnyary"){
-        
         const connection = joinVoiceChannel({
             channelId: message.member.voice.channelId,
             guildId: message.guildId,
@@ -148,7 +152,12 @@ client.on("messageCreate",(message)=>{
         })
 
     }else{
-        return
+        message.reply("Такої команди не розумію")
+        message.reply(`
+        Доступні команди:
+        !play
+        !stop
+        !pisnyary`)
     }
     
   
